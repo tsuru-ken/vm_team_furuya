@@ -1,4 +1,7 @@
-class Drink
+
+
+
+class Drink # SDARAドリンクマシーン
   # インスタンスを初期化　引数(name, price)
   def initialize(name, price)
     # インスタンス作成時に渡された名前をインスタンス変数に代入
@@ -6,7 +9,7 @@ class Drink
     @price = price
   end
 
-   #ハッシュ化用メソッド
+  #ハッシュ化用メソッド
   def to_h
     {name: @name, price: @price}
   end
@@ -90,41 +93,24 @@ class VendingMachine
       # to_symで文字列をシンボル（数字）として扱う
       judge_1.find_all { |drink| @stocks[drink[:name].to_sym] > 0 }
     end
-  def available_drinks_list
-        available_drinks = judge_2
-        available_drinks.each.with_index(1) do |available_drink, i|
-          puts "番号：#{i} #{available_drink[:price]}円 #{available_drink[:name]}"
+
+    # 買えるドリンクリスト
+  def buy_drinks_list
+        buy_drinks = judge_2
+        buy_drinks.each.with_index(1) do |buy_drink, i|
+          puts "番号：#{i} #{buy_drink[:price]}円 #{buy_drink[:name]}"
           puts "--------------------------"
         end
-    end
+  end
 
 
     # 飲み物を選択・購入しようとするところ
     def select_drink(drink_number)
-      available_drinks = judge_2
+      buy_drinks = judge_2
       #選択購入
-      @selected_drink = available_drinks[drink_number - 1]
-      calculate
+      @selected_drink = buy_drinks[drink_number - 1]
       puts "購入した飲み物：#{@selected_drink[:name]}"
     end
 
-    # 各変数を計算
-  def calculate
-    #在庫数を計算
-    @stocks[@selected_drink[:name].to_sym] -= 1
-    #合計金額を計算
-    @slot_money -= @selected_drink[:price]
-    #売上金額を計算
-    @sales_money += @selected_drink[:price]
   end
 
-  def stock_info
-    puts "在庫状況"
-    puts "---------------------------------"
-    @stocks.each do |name, stock|
-      puts "#{name}: #{stock}本"
-    end
-    puts "---------------------------------"
-  end
-
-  end
