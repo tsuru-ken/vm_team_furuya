@@ -138,7 +138,7 @@ class VendingMachine
     end
 
 
-    def upte_stock
+    def update_stock
       # 在庫が０よりも大きく、かつ、在庫の値がnil出ない時在庫を数える
       if @stocks.count > 0 || @stocks.nil?
         @stocks.each do |name,count|
