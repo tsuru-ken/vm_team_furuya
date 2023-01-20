@@ -1,8 +1,5 @@
-
-
-
 class Drink
-  # インスタンスを初期化 引数(name, price)
+  # インスタンスを初期化　引数(name, price)
   def initialize(name, price)
     # インスタンス作成時に渡された名前をインスタンス変数に代入
     @name = name
@@ -18,11 +15,11 @@ class Drink
   #インスタンス化したものを、selfでDrinkcolaをクラスメソッドとして定義
   #コーラ、１２０として扱えるようにする
   def self.cola
-    Drink.new("コーラzero", 120).to_h
+    Drink.new("コーラ", 120).to_h
   end
 
   def self.water
-    Drink.new("頭が良くなる水", 400).to_h
+    Drink.new("水", 100).to_h
   end
 
   def self.redbull
@@ -50,8 +47,8 @@ class VendingMachine
       @slot_money = 0
       # 売上金額
       @sales_money = 0
-      # 在庫（ドリンクの名前をキーとして在庫数を持っている）
-      @stocks = {"コーラzero": 5, "頭が良くなる水": 4, "レッドブル": 3, "ビール": 2}
+      # 在庫
+      @stocks = {"コーラ": 5, "水": 4, "レッドブル": 3, "ビール": 2}
       # 選んだドリンク
       @selected_drink = []
     end
@@ -109,42 +106,26 @@ class VendingMachine
       buy_drinks = judge_2
       #選択購入
       @selected_drink = buy_drinks[drink_number - 1]
-      # calculateを呼び出して、在庫を一つ減らす。
       calculate
-      puts "ガランゴロン"
       puts "購入した飲み物：#{@selected_drink[:name]}"
-      # total_keisan
     end
 
-    def calculate
-      #在庫数を計算（在庫数を1つ減らす処理）
-      # ポイント、ドリンクの名前をシンボルに変換して、@stocksから在庫を所得すること。
-      # インスタンス変数 @selected_drinkからドリンクの名前を所得
-      stock_name = @selected_drink[:name]
-      # 所得したドリンクを.to_symメソッドでシンボルにする
-      stock_name_symbol = stock_name.to_sym
-      # インスタンス変数 @stocks から在庫数を取得　
-      current_stock = @stocks[stock_name_symbol]
-      # 所得した在庫数から1をひいて、更新在庫を計算
-      updated_stock = current_stock - 1
-      # インスタンス変数、更新後の在庫を入れる
-      @stocks[stock_name_symbol] = updated_stock
-
-      #合計金額を計算　（-=は左辺を１減らす）
-      @slot_money -= @selected_drink[:price]
-      #売上金額を計算
-      @sales_money += @selected_drink[:price]
-    end
-
-
-    def upte_stock
-      # 在庫が０よりも大きく、かつ、在庫の値がnil出ない時在庫を数える
-      if @stocks.count > 0 || @stocks.nil?
-        @stocks.each do |name,count|
-          puts "#{name} の在庫数:#{count}"
-        end
-      else
-        puts "在庫なし"
-      end
-    end
+    # 各変数を計算
+  def calculate
+    #在庫数を計算
+    @stocks[@selected_drink[:name].to_sym] -= 1
+    #合計金額を計算
+    @slot_money -= @selected_drink[:price]
+    #売上金額を計算
+    @sales_money += @selected_drink[:price]
   end
+
+  def stock_info
+    puts "在庫状況"
+    puts "---------------------------------"
+    @stocks.each do |name, stock|
+      puts "#{name}: #{stock}本"
+    end
+    puts "---------------------------------"
+  end
+end
