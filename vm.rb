@@ -113,6 +113,7 @@ class VendingMachine
       calculate
       puts "ガランゴロン"
       puts "購入した飲み物：#{@selected_drink[:name]}"
+      puts "残金:#{@slot_money}"
       # total_keisan
     end
 
