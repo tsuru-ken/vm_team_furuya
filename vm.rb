@@ -111,13 +111,14 @@ class VendingMachine
       buy_drinks = judge_2
       #選択購入
       @selected_drink = buy_drinks[drink_number - 1]
+      calculate
 
-        if @slot_money < @selected_drink[:price] ||  @stocks[@selected_drink[:name].to_sym] < 0
-        puts "在庫なし"
+        # 投入金額が選んだ商品よりも少なかった場合、"投入金額が足りません。"と表示する
+        if  @slot_money < @selected_drink[:price] ||  @stocks[@selected_drink[:name].to_sym] <= 0
+        puts "投入金額が足りません。また、在庫がないです"
 
         else
         # calculateを呼び出して、在庫を一つ減らす。
-        calculate
         puts "ガランゴロン"
         puts "購入した飲み物：#{@selected_drink[:name]}"
         puts "残金:#{@slot_money}"
@@ -143,9 +144,6 @@ class VendingMachine
       @slot_money -= @selected_drink[:price]
       #売上金額を計算
       @sales_money += @selected_drink[:price]
-    end
-    def sold_out
-
     end
 
 
