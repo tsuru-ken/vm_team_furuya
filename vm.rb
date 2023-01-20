@@ -75,6 +75,8 @@ class VendingMachine
       return false unless MONEY.include?(money)
       # 自動販売機にお金を入れる
       @slot_money += money
+      puts "現在の投入金額: #{@slot_money}円"
+      puts "投入した金額: #{money}円"
     end
 
     # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
